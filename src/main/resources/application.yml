@@ -4,18 +4,22 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/t1_demo
     username: postgres
-    password: "0000"
+    password: post
     driverClassName: org.postgresql.Driver
   liquibase:
     enabled: true
     default-schema: t1_demo
     change-log: db/changelog/db.changelog-master.xml
 
+metric:
+  execution:
+    time:
+      limit: 5000  # Лимит времени в миллисекундах
 
 logging:
   level:
     ROOT: INFO
-    ru.t1.java.demo.controller.ClientController: DEBUG
+    ru.t1.java.demo.controller.ru.t1.java.demo.controller.Controller: DEBUG
 
 t1:
   scan-path: ru.t1.java.demo
@@ -26,11 +30,17 @@ t1:
       group-id: t1-demo
       max.poll.records: 10
     producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
       enable: true
     topic:
       client_registration: t1_demo_client_registration
       client_id_registered: t1_demo_client_registered
       client_transactions: t1_demo_client_transactions
+
+      account_transactions: t1_demo_account_transactions
+      account_registration: t1_demo_account_registration
+      accounts: t1_demo_accounts
 
     listener:
       poll-timeout: 1000

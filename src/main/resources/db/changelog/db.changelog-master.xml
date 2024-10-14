@@ -8,7 +8,28 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
         <sqlFile encoding="utf8" path="/db/changelog/2024/09/16-01-changelog-01.sql"/>
         <rollback/>
     </changeSet>
-
+    <changeSet id="1" author="Mikhail">
+        <createTable tableName="account">
+            <column name="id" type="BIGINT">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="client_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="account_type" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="balance" type="DECIMAL(19,2)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="add-auto-increment-to-account-id" author="Mikhail">
+        <addAutoIncrement
+                tableName="account"
+                columnName="id"
+                columnDataType="BIGINT"/>
+    </changeSet>
     <changeSet id="update-client" author="ECHasov">
         <sqlFile encoding="utf8" path="/db/changelog/2024/09/16-01-changelog-02.sql"/>
         <rollback/>
@@ -16,6 +37,13 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
     <changeSet id="1727272690521-1" author="e_cha (generated)">
         <createSequence incrementBy="50" sequenceName="transaction_seq" startValue="1"/>
     </changeSet>
+<!--    <changeSet id="2" author="Mikhail">-->
+<!--        <addColumn tableName="transaction">-->
+<!--            <column name="account_id" type="BIGINT">-->
+<!--                <constraints nullable="false"/>-->
+<!--            </column>-->
+<!--        </addColumn>-->
+<!--    </changeSet>-->
     <changeSet id="1727272690521-2" author="e_cha (generated)">
         <createTable tableName="transaction">
             <column name="id" type="BIGINT">
@@ -23,6 +51,9 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
             </column>
             <column name="amount" type="DECIMAL(19, 2)"/>
             <column name="client_id" type="BIGINT"/>
+            <column name="account_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
     </changeSet>
 

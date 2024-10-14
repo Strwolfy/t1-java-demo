@@ -39,6 +39,7 @@ public class KafkaClientConsumer {
                     })
                     .toList();
             clientService.registerClients(clients);
+            //System.out.println("Registering clients: " + clients);
         } finally {
             ack.acknowledge();
         }
